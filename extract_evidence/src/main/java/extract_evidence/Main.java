@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 import model.QwModel;
+import process.EvidenctSentenceExtractor;
 import util.XMLUtil;
 
 public class Main {
@@ -107,6 +108,12 @@ public class Main {
 	}
 
 	private void process(ArrayList<QwModel> list){
+		
+		EvidenctSentenceExtractor extractor = EvidenctSentenceExtractor.getInstance();
+		for(QwModel model:list){
+			String result = extractor.extractSentences(model);
+			System.out.println(result);
+		}
 		
 	}
 	
