@@ -1,4 +1,4 @@
-package process;
+package process.sentenceExtract;
 
 import model.QwModel;
 

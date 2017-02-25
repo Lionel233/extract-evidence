@@ -10,16 +10,24 @@ import java.util.ArrayList;
  */
 public class QwModel {
 
+
 	private String content1;
 	private String content2;
 	private String source1;
 	private String source2;
+	private String path;	//文件路径
 	private ArrayList<EvidenceRecord> recordList;
-
 	public QwModel(String content1, String source1) {
 		super();
 		this.content1 = content1;
 		this.source1 = source1;
+	}
+
+	public QwModel(String content1, String source1, String path) {
+		super();
+		this.content1 = content1;
+		this.source1 = source1;
+		this.path = path;
 	}
 
 	public QwModel() {
@@ -64,6 +72,14 @@ public class QwModel {
 
 	public void setRecordList(ArrayList<EvidenceRecord> recordList) {
 		this.recordList = recordList;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }
