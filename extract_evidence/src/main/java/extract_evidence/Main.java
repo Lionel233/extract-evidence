@@ -44,6 +44,9 @@ public class Main {
 		String filenames[];
 		filenames = file.list();
 		for (String filename : filenames) {
+			if(filename.contains(".DS_Store")){
+				continue;
+			}
 			ArrayList<String> res = null;
 			currentType = type;
 			switch (type) {
