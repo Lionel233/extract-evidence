@@ -1,8 +1,8 @@
 package process.sentenceExtract;
 
-import model.QwModel;
+import model.PreEv;
 
-public interface EvidenceSentenceExtract {
+public interface KeyContentExtract {
 	
 	/**
 	 * 读取model 中的content1,content2以及位置信息
@@ -12,6 +12,6 @@ public interface EvidenceSentenceExtract {
 	 * @param model
 	 * @return
 	 */
-	public String extractSentences(QwModel model);
+	public boolean extractSentences(PreEv model);
 
 }

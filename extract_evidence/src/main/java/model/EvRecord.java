@@ -4,7 +4,7 @@ package model;
  * 证据记录
  *
  */
-public class EvidenceRecord {
+public class EvRecord {
 
 	/**
 	 * 证据名称
@@ -29,7 +29,7 @@ public class EvidenceRecord {
 	 */
 	private String content;
 
-	public EvidenceRecord(String content) {
+	public EvRecord(String content) {
 		super();
 		this.content = content;
 	}

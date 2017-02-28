@@ -2,7 +2,7 @@ package process;
 
 import java.util.ArrayList;
 
-import model.EvidenceRecord;
+import model.EvRecord;
 
 public interface EvidenceDetailExtract {
 	
@@ -11,6 +11,6 @@ public interface EvidenceDetailExtract {
 	 * 
 	 * @return
 	 */
-	public ArrayList<EvidenceRecord> extractDetails(String sentences);
+	public ArrayList<EvRecord> extractDetails(String sentences);
 
 }

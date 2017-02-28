@@ -9,9 +9,10 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
 
-import model.QwModel;
-import process.sentenceExtract.EvidenceSentenceExtract;
-import process.sentenceExtract.EvidenceSentenceExtractor;
+import model.EvPara;
+import model.PreEv;
+import process.sentenceExtract.KeyContentExtract;
+import process.sentenceExtract.KeyContentExtractor;
 import util.XMLUtil;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
 
 	public void start() {
 		// load
-		ArrayList<QwModel> list = load("刑事一审");
+		ArrayList<PreEv> list = load("刑事一审");
 
 		// process
 		process(list);
@@ -38,8 +39,8 @@ public class Main {
 	 *            : 刑事一审/刑事二审/民事一审...
 	 * @return
 	 */
-	private ArrayList<QwModel> load(String type) {
-		ArrayList<QwModel> list = new ArrayList<QwModel>();
+	private ArrayList<PreEv> load(String type) {
+		ArrayList<PreEv> list = new ArrayList<PreEv>();
 		File file = new File(XMLUtil.readPath + type);
 		String filenames[];
 		filenames = file.list();
@@ -53,10 +54,15 @@ public class Main {
 			case "刑事一审":
 			case "刑事二审":
 				try {
+					PreEv preEV = new PreEv();
+					preEV.setPath(filename);
+					ArrayList<EvPara> evParaList = new ArrayList<EvPara>();
 					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//BSSLD/@value");
-					if(!res.isEmpty()){
-						list.add(new QwModel(res.get(0),"BSSLD",filename));
+					for(String token:res){
+						evParaList.add(new EvPara(token,"BSSLD"));
 					}
+					preEV.setEvParaList(evParaList);
+					list.add(preEV);
 				} catch (XPathExpressionException e) {
 					e.printStackTrace();
 				} catch (ParserConfigurationException e) {
@@ -70,10 +76,15 @@ public class Main {
 			case "民事一审":
 			case "行政一审":
 				try {
+					PreEv preEV = new PreEv();
+					preEV.setPath(filename);
+					ArrayList<EvPara> evParaList = new ArrayList<EvPara>();
 					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//ZJD/@value");
-					if(!res.isEmpty()){
-						list.add(new QwModel(res.get(0),"ZJD",filename));
+					for(String token:res){
+						evParaList.add(new EvPara(token,"ZJD"));
 					}
+					preEV.setEvParaList(evParaList);
+					list.add(preEV);
 				} catch (XPathExpressionException e) {
 					e.printStackTrace();
 				} catch (ParserConfigurationException e) {
@@ -87,20 +98,18 @@ public class Main {
 			case "民事二审":
 			case "行政二审":
 				try {
-					QwModel model = new QwModel();
+					PreEv preEV = new PreEv();
+					preEV.setPath(filename);
+					ArrayList<EvPara> evParaList = new ArrayList<EvPara>();
 					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//QSZJD/@value");
-					if(!res.isEmpty()){
-						model.setContent1(res.get(0));
-						model.setSource1("QSZJD");
-						model.setPath(filename);
+					for(String token:res){
+						evParaList.add(new EvPara(token,"QSZJD"));
 					}
 					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//BSZJD/@value");
-					if(!res.isEmpty()){
-						model.setContent2(res.get(0));
-						model.setSource2("BSZJD");
-						model.setPath(filename);
+					for(String token:res){
+						evParaList.add(new EvPara(token,"BSZJD"));
 					}
-					list.add(model);
+					list.add(preEV);
 				} catch (XPathExpressionException e) {
 					e.printStackTrace();
 				} catch (ParserConfigurationException e) {
@@ -117,16 +126,16 @@ public class Main {
 		return list;
 	}
 
-	private void process(ArrayList<QwModel> list){
+	private void process(ArrayList<PreEv> list){
 		
 		int total = 0;
 		int hit = 0;
-		EvidenceSentenceExtract extractor = EvidenceSentenceExtractor.getInstance(currentType);
-		for(QwModel model:list){
-			String result = extractor.extractSentences(model);
+		KeyContentExtract extractor = KeyContentExtractor.getInstance(currentType);
+		for(PreEv model:list){
+			boolean result = extractor.extractSentences(model);
 			//System.out.println(result);
 			total ++;
-			if(result != null){
+			if(result){
 				hit ++;
 			}
 		}
