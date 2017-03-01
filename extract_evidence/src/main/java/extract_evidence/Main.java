@@ -25,12 +25,23 @@ public class Main {
 	}
 
 	public void start() {
-		// load
-		ArrayList<PreEv> list = load("刑事一审");
-
-		// process
-		process(list);
+		//ArrayList<PreEv> list = load("刑事一审");
+		//process(list);
 		
+//		ArrayList<PreEv> list = load("行政一审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("行政二审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("民事一审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("民事二审");
+//		process(list);
+		
+		ArrayList<PreEv> list = load("刑事二审");
+		process(list);
 		// output
 	}
  
@@ -52,11 +63,35 @@ public class Main {
 			currentType = type;
 			switch (type) {
 			case "刑事一审":
+				try {
+					PreEv preEV = new PreEv();
+					preEV.setPath(filename);
+					ArrayList<EvPara> evParaList = new ArrayList<EvPara>();
+					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//BSSLD/@value");
+					for(String token:res){
+						evParaList.add(new EvPara(token,"BSSLD"));
+					}
+					preEV.setEvParaList(evParaList);
+					list.add(preEV);
+				} catch (XPathExpressionException e) {
+					e.printStackTrace();
+				} catch (ParserConfigurationException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (SAXException e) {
+					e.printStackTrace();
+				}
+				break;
 			case "刑事二审":
 				try {
 					PreEv preEV = new PreEv();
 					preEV.setPath(filename);
 					ArrayList<EvPara> evParaList = new ArrayList<EvPara>();
+					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//QSSLD/@value");
+					for(String token:res){
+						evParaList.add(new EvPara(token,"QSSLD"));
+					}
 					res = XMLUtil.getNodes(XMLUtil.readPath + type + "/" + filename, "//BSSLD/@value");
 					for(String token:res){
 						evParaList.add(new EvPara(token,"BSSLD"));
@@ -109,6 +144,7 @@ public class Main {
 					for(String token:res){
 						evParaList.add(new EvPara(token,"BSZJD"));
 					}
+					preEV.setEvParaList(evParaList);
 					list.add(preEV);
 				} catch (XPathExpressionException e) {
 					e.printStackTrace();
@@ -132,6 +168,10 @@ public class Main {
 		int hit = 0;
 		KeyContentExtract extractor = KeyContentExtractor.getInstance(currentType);
 		for(PreEv model:list){
+			//有些文书并不包含证据段，故直接忽略
+			if(model.getEvParaList().isEmpty()){
+				continue;
+			}
 			boolean result = extractor.extractSentences(model);
 			//System.out.println(result);
 			total ++;

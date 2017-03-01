@@ -60,7 +60,19 @@ public abstract class KeyContentExtractor implements KeyContentExtract{
 		boolean flag = false;
 		for(EvPara para:model.getEvParaList()){
 			flag = (flag || this.match(para));
+			if(flag){
+				break;
+			}
 		}
+		//for debug
+//		if(!flag){
+//			System.out.println(model.getPath());
+//		}
+		System.out.print(model.getPath());
+		for(EvPara para:model.getEvParaList()){
+			System.out.print("\t" + para.getResolveType());;
+		}
+		System.out.println();
 		return flag;
 	}
 	

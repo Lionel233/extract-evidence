@@ -17,7 +17,7 @@ public class MatchStrategy2  implements MatchStrategy{
 				"（十二）", "（十三）", "（十四）", "（十五）", "（十六）", "（十七）", "（十八）", "（十九）", "（二十）", "（二十一）", "（二十二）", "（二十三）",
 				"（二十四）", "（二十五）" };
 
-		char[] puntuations = { '.', '、', '，', ',' };
+		char[] puntuations = { '．','、', '，', ',','.'};
 
 		String combine1 = null; // 标号为1组合
 		String combine2 = null; // 标号为2组合
@@ -31,6 +31,7 @@ public class MatchStrategy2  implements MatchStrategy{
 		for (int i = 0; i < stringList.length; i++) {
 			if (isMatchSequenceAhead(stringList[i])) {
 				matchIndex = i;
+				break;
 			}
 		}
 		if (matchIndex < 0) {
@@ -87,7 +88,7 @@ public class MatchStrategy2  implements MatchStrategy{
 					currentIndex++;
 				}
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 
@@ -105,12 +106,13 @@ public class MatchStrategy2  implements MatchStrategy{
 	 */
 	private boolean isMatchSequenceAhead(String input) {
 
-		if (!(input.contains("上述") && input.contains("事实"))) {
-			return false;
-		}
+//		if (!(input.contains("上述") && input.contains("事实"))) {
+//			return false;
+//		}
 
 		// 质证/认证
-		// 证据
+		// 提供/提交
+		// 证据/材料
 		// 予以
 		// 证实/证明
 		// ：
@@ -119,7 +121,10 @@ public class MatchStrategy2  implements MatchStrategy{
 		if (input.contains("质证") || input.contains("认证")) {
 			matchPoint += 0.5;
 		}
-		if (input.contains("证据")) {
+		if(input.contains("提供") || input.contains("提交")){
+			matchPoint++;
+		}
+		if (input.contains("证据") || input.contains("材料")) {
 			matchPoint++;
 		}
 		if (input.contains("予以")) {
@@ -131,7 +136,7 @@ public class MatchStrategy2  implements MatchStrategy{
 		if (input.contains("：")) {
 			matchPoint++;
 		}
-		if (matchPoint >= 2.9999) {
+		if (matchPoint >= 1.9999) {
 			return true;
 		}
 		return false;
