@@ -2,6 +2,7 @@ package process.sentenceExtract;
 
 import process.sentenceExtract.match.MatchStrategy1;
 import process.sentenceExtract.match.MatchStrategy2;
+import process.sentenceExtract.match.MatchStrategy3;
 
 public class CriminalFirstExtractor extends KeyContentExtractor {
 	private static CriminalFirstExtractor extractor = new CriminalFirstExtractor();
@@ -12,6 +13,7 @@ public class CriminalFirstExtractor extends KeyContentExtractor {
 		this.strategyList.clear();
 		this.strategyList.add(new MatchStrategy1());
 		this.strategyList.add(new MatchStrategy2());
+		this.strategyList.add(new MatchStrategy3());
 	}
 
 	public static CriminalFirstExtractor getInstance() {

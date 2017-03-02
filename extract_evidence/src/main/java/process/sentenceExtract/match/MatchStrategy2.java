@@ -9,8 +9,7 @@ public class MatchStrategy2  implements MatchStrategy{
 		String content1 = para.getContent();
 
 		// 标号目前最高有25，不使用集合暂时没想到什么好方法，
-		String[] sequenceNumber1 = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15",
-				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25" };
+		String[] sequenceNumber1 = { "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99" };
 		String[] sequenceNumber2 = { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五",
 				"十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五" };
 		String[] sequenceNumber3 = { "（一）", "（二）", "（三）", "（四）", "（五）", "（六）", "（七）", "（八）", "（九）", "（十）", "（十一）",
@@ -61,9 +60,10 @@ public class MatchStrategy2  implements MatchStrategy{
 			}
 		}
 		if (!isMatch) {
-			for (int i = 0; i < puntuations.length; i++) {
-				combine1 = sequenceNumber3[0] + puntuations[i];
-				combine2 = sequenceNumber3[1] + puntuations[i];
+			String[] puntuationsEx = { "．","、","", "，", ",","."};
+			for (int i = 0; i < puntuationsEx.length; i++) {
+				combine1 = sequenceNumber3[0] + puntuationsEx[i];
+				combine2 = sequenceNumber3[1] + puntuationsEx[i];
 				if (content1.contains(combine1) && content1.contains(combine2)) {
 					sequenceMatch = sequenceNumber3;
 					indexOfPuntuations = i;

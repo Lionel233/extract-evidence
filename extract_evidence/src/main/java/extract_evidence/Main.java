@@ -1,6 +1,8 @@
 package extract_evidence;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -25,8 +27,8 @@ public class Main {
 	}
 
 	public void start() {
-		//ArrayList<PreEv> list = load("刑事一审");
-		//process(list);
+		ArrayList<PreEv> list = load("刑事一审");
+		process(list);
 		
 //		ArrayList<PreEv> list = load("行政一审");
 //		process(list);
@@ -40,9 +42,10 @@ public class Main {
 //		ArrayList<PreEv> list = load("民事二审");
 //		process(list);
 		
-		ArrayList<PreEv> list = load("刑事二审");
-		process(list);
+//		ArrayList<PreEv> list = load("刑事二审");
+//		process(list);
 		// output
+		output(list);
 	}
  
 	/**
@@ -184,5 +187,34 @@ public class Main {
 		System.out.println("hit rate: " + 1.0 * hit/total);
 	}
 	
-	
+	private void output(ArrayList<PreEv> list){
+
+		for(PreEv preEv:list){
+			if(preEv == null || preEv.getEvParaList().isEmpty()){
+				continue;
+			}
+			BufferedWriter writer = null;
+			try {
+				writer = new BufferedWriter(new FileWriter(new File(XMLUtil.outPath + currentType + "/" + preEv.getPath().replace("xml", "txt"))));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			for(EvPara para : preEv.getEvParaList()){
+				if(para.getKeyContent() == null){
+					continue;
+				}
+				try {
+					writer.write(para.getKeyContent() + System.lineSeparator());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
