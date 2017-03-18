@@ -1,11 +1,12 @@
 extract_evidence/src/main/resources/
 extract_evidence/.settings/
 extract_evidence/target/
+extract_evidence/lib/
+extract_evidence/.project
+extract_evidence/.classpath
 .DS_Store
 
 
 
 
-extract_evidence/lib/hanlp-1.3.2-sources.jar
 
-extract_evidence/lib/hanlp-1.3.2.jar
