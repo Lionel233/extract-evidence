@@ -40,7 +40,6 @@ public class Litigant {
 	}
 
 	public static ArrayList<Litigant> getLitigants(String filename) {
-		System.out.println(filename);
 		ArrayList<Litigant> litigantList = new ArrayList<Litigant>();
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
@@ -72,7 +71,9 @@ public class Litigant {
 						if (element.getTagName() == "DSRLB"/* 当事人类别 */) {
 							if (element.getAttribute("value").equals("被告人")) {
 								litigant.setType(LitigantType.getLitigantType("被告"));
-							} else {
+							} else if(element.getAttribute("value").equals("原告人")){
+								litigant.setType(LitigantType.getLitigantType("原告"));
+							}else {
 								litigant.setType(LitigantType.getLitigantType((element.getAttribute("value"))));
 							}
 							break;
