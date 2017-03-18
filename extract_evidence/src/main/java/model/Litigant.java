@@ -56,8 +56,15 @@ public class Litigant {
 				for (int i = 0; i < dsrList.getLength() - 1; i++) {
 					Litigant litigant = new Litigant();
 					Node dsr = (Node) dsrList.item(i);
+					
+					//防止在win上报错
+					if(dsr.getNodeName().equals("null") || dsr.getNodeName().equals("#text")) continue;
+					//System.out.println(dsr.getNodeName());
 					NodeList dsrChild = dsr.getChildNodes();
 					for (int j = 0; j < dsrChild.getLength(); j++) {
+						//System.out.println(dsrChild.item(j).getNodeName());
+						//防止在win上报错
+						if(dsrChild.item(j).getNodeName().equals("null") || dsrChild.item(j).getNodeName().equals("#text")) continue;
 						element = (Element) dsrChild.item(j);
 						if (element.getTagName() == "SSCYR"/* 诉讼参与人 */) {
 							litigant.setName(element.getAttribute("value"));
@@ -71,7 +78,10 @@ public class Litigant {
 							break;
 						}
 					}
-					litigantList.add(litigant);
+					//防止在win上报错
+					if(litigant.getName()!=null && litigant.getType()!=null){
+						litigantList.add(litigant);
+					}
 				}
 			}
 		} catch (ParserConfigurationException e) {
