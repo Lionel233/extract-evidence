@@ -29,8 +29,47 @@ public class EvRecord {
 	 */
 	private String content;
 
-	public EvRecord(String content) {
+	public EvRecord() {
 		super();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getCommiter() {
+		return commiter;
+	}
+
+	public void setCommiter(String commiter) {
+		this.commiter = commiter;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
 		this.content = content;
 	}
 

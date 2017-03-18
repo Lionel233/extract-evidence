@@ -1,6 +1,7 @@
 package util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,9 +14,14 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.jdom.Element;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import model.EvRecord;
 
 /**
  * Created by raychen on 2016/12/7.
@@ -24,6 +30,7 @@ public class XMLUtil {
 
     public static String readPath = "src/main/resources/in/";
     public static String outPath = "src/main/resources/out/";
+    public static String resourcesPath = "src/main/resources/";
 
     //获取xml中节点
     public static ArrayList<String> getNodes(String path, String x) throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
@@ -47,7 +54,46 @@ public class XMLUtil {
         return result;
     }
 
-    //生成xml文件, 这里主要是生成划分好的事实段
+    //生成xml文件
+    public static void generateXML(ArrayList<EvRecord> recordList,String filename){
+    	Element root = new Element("ZJXX").setAttribute("nameCN","证据信息");
+    	
+        // 将根节点添加到文档中；
+        org.jdom.Document doc = new org.jdom.Document(root);
+        
+        if(recordList == null) return;
+        //将证据插入文档
+        for (EvRecord record: recordList) {
+            Element e = new Element("ZJJL").setAttribute("nameCN", "证据记录");
+            e.setAttribute("value", record.getContent());
+            root.addContent(e);
+            
+            Element e2 = new Element("MC").setAttribute("nameCN", "名称");
+            e2.setAttribute("value", record.getName());
+            e.addContent(e2);
+            
+            Element e3 = new Element("ZL").setAttribute("nameCN", "种类");
+            e3.setAttribute("value", record.getType());
+            e.addContent(e3);
+            
+            if(record.getCommiter()!=null){
+                Element e4 = new Element("TJR").setAttribute("nameCN", "提交人");
+                e3.setAttribute("value", record.getCommiter());
+                e.addContent(e4);
+            }
+
+        }
+        
+        // 使xml文件 缩进效果
+        Format format = Format.getPrettyFormat();
+        XMLOutputter XMLOut = new XMLOutputter(format);
+        try {
+            XMLOut.output(doc, new FileOutputStream(outPath+filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+//    
 //    public static void buildNewSSD(ArrayList<SSDModel> ssdModels, String fileName){
 //        Element root = new Element("SYSSD").setAttribute("nameCN","所有事实段");
 //        root.setAttribute("value", "事实段出现的各个节点");

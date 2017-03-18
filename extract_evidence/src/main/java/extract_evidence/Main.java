@@ -14,13 +14,14 @@ import org.xml.sax.SAXException;
 import model.EvPara;
 import model.Litigant;
 import model.PreEv;
+import process.evDetailExtract.EvidenceDetailExtractor;
 import process.sentenceExtract.KeyContentExtract;
 import process.sentenceExtract.KeyContentExtractor;
 import util.XMLUtil;
 
 public class Main {
-
-	public String currentType; // 表明当前处理的是哪个文件夹当中的文件
+	
+	public String currentType;	//表明当前处理的是哪个文件夹当中的文件
 
 	public static void main(String[] args) {
 		Main main = new Main();
@@ -30,25 +31,25 @@ public class Main {
 	public void start() {
 		ArrayList<PreEv> list = load("刑事一审");
 		process(list);
-
-		// ArrayList<PreEv> list = load("行政一审");
-		// process(list);
-
-		// ArrayList<PreEv> list = load("行政二审");
-		// process(list);
-
-		// ArrayList<PreEv> list = load("民事一审");
-		// process(list);
-
-		// ArrayList<PreEv> list = load("民事二审");
-		// process(list);
-
-		// ArrayList<PreEv> list = load("刑事二审");
-		// process(list);
+		
+//		ArrayList<PreEv> list = load("行政一审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("行政二审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("民事一审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("民事二审");
+//		process(list);
+		
+//		ArrayList<PreEv> list = load("刑事二审");
+//		process(list);
 		// output
 		output(list);
 	}
-
+ 
 	/**
 	 * @param type
 	 *            : 刑事一审/刑事二审/民事一审...
@@ -129,48 +130,57 @@ public class Main {
 		return list;
 	}
 
-	private void process(ArrayList<PreEv> list) {
-
+	private void process(ArrayList<PreEv> list){
+		
 		int total = 0;
 		int hit = 0;
 		KeyContentExtract extractor = KeyContentExtractor.getInstance(currentType);
-		for (PreEv model : list) {
-			// 有些文书并不包含证据段，故直接忽略
-			if (model.getEvParaList().isEmpty()) {
+		for(PreEv model:list){
+			//有些文书并不包含证据段，故直接忽略
+			if(model.getEvParaList().isEmpty()){
 				continue;
 			}
 			boolean result = extractor.extractSentences(model);
-			// System.out.println(result);
-			total++;
-			if (result) {
-				hit++;
+			for(EvPara para:model.getEvParaList()){
+				EvidenceDetailExtractor.getInstance().extractDetails(para);
+			}
+			
+			//System.out.println(result);
+			total ++;
+			if(result){
+				hit ++;
 			}
 		}
 		System.out.println("hit: " + hit);
 		System.out.println("total: " + total);
-		System.out.println("hit rate: " + 1.0 * hit / total);
+		System.out.println("hit rate: " + 1.0 * hit/total);
 	}
+	
+	private void output(ArrayList<PreEv> list){
+		
+		for(PreEv preEv:list){
+			for(EvPara para:preEv.getEvParaList()){
+				XMLUtil.generateXML(para.getRecordList(), currentType + "xml/" + preEv.getPath());
+			}
+		}
 
-	private void output(ArrayList<PreEv> list) {
-
-		for (PreEv preEv : list) {
-			if (preEv == null || preEv.getEvParaList().isEmpty()) {
+		for(PreEv preEv:list){
+			if(preEv == null || preEv.getEvParaList().isEmpty()){
 				continue;
 			}
 			BufferedWriter writer = null;
 			try {
-				writer = new BufferedWriter(new FileWriter(
-						new File(XMLUtil.outPath + currentType + "/" + preEv.getPath().replace("xml", "txt"))));
+				writer = new BufferedWriter(new FileWriter(new File(XMLUtil.outPath + currentType + "/" + preEv.getPath().replace("xml", "txt"))));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			for (EvPara para : preEv.getEvParaList()) {
-				if (para.getKeyContent() == null) {
+			
+			for(EvPara para : preEv.getEvParaList()){
+				if(para.getKeyContent() == null){
 					continue;
 				}
 				try {
-					writer.write(para.getKeyContent() + System.lineSeparator());
+					writer.write(para.getEvContent() + System.lineSeparator());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -23,7 +23,7 @@ public class HanlpTest {
 	}
 	
 	public void start2(){
-        CoNLLSentence sentence = HanLP.parseDependency("被害人王某甲、王某乙的陈述");
+        CoNLLSentence sentence = HanLP.parseDependency("抓获经过");
         System.out.println(sentence);
         // 可以方便地遍历它
         for (CoNLLWord word : sentence)

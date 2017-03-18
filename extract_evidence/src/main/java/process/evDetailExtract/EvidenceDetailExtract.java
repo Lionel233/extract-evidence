@@ -1,9 +1,6 @@
 package process.evDetailExtract;
 
-import java.util.ArrayList;
-
 import model.EvPara;
-import model.EvRecord;
 
 public interface EvidenceDetailExtract {
 	
@@ -12,6 +9,6 @@ public interface EvidenceDetailExtract {
 	 * 
 	 * @return
 	 */
-	public ArrayList<EvRecord> extractDetails(EvPara evpara);
+	public boolean extractDetails(EvPara evpara);
 
 }

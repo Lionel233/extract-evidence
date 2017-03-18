@@ -6,6 +6,11 @@ public class EvPara {
 
 	private String content;
 	private String keyContent;
+	private String evContent;
+	/**
+	 * 标号类特有属性
+	 */
+	private ArrayList<String> evContentList;
 	private String source;
 	private ArrayList<EvRecord> recordList;
 	/**
@@ -61,6 +66,22 @@ public class EvPara {
 
 	public void setRecordList(ArrayList<EvRecord> recordList) {
 		this.recordList = recordList;
+	}
+
+	public String getEvContent() {
+		return evContent;
+	}
+
+	public void setEvContent(String evContent) {
+		this.evContent = evContent;
+	}
+
+	public ArrayList<String> getEvContentList() {
+		return evContentList;
+	}
+
+	public void setEvContentList(ArrayList<String> evContentList) {
+		this.evContentList = evContentList;
 	}
 
 }

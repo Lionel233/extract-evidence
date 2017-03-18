@@ -1,5 +1,9 @@
 package process.sentenceExtract.match;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import model.EvPara;
 
 public class MatchStrategy2  implements MatchStrategy{
@@ -25,7 +29,7 @@ public class MatchStrategy2  implements MatchStrategy{
 		boolean isMatch = false; // 目前是否匹配
 
 		// 先定位至标号前的那句话
-		String[] stringList = content1.split("。");
+		String[] stringList = content1.split("。|；");
 		int matchIndex = -1;
 		for (int i = 0; i < stringList.length; i++) {
 			if (isMatchSequenceAhead(stringList[i])) {
@@ -77,14 +81,50 @@ public class MatchStrategy2  implements MatchStrategy{
 			return false;
 		}
 
+		ArrayList<String> evContentList = new ArrayList<String>();
 		// 提取从第一个标号开始到最后一个标号结束(以句号为标志)的所有文字
 		StringBuilder result = new StringBuilder("");
+		StringBuilder evContent = new StringBuilder("");
 		int currentIndex = 0;
+//		boolean isEnd = false;
+//		while(!isEnd){
+//			if(!content1.contains(sequenceMatch[currentIndex+1] + puntuations[indexOfPuntuations])){
+//				isEnd = true;
+//			}
+//			
+//	        String regex = "";
+//	        if(!isEnd){
+//	        	regex = sequenceMatch[currentIndex] + puntuations[indexOfPuntuations] + "(.*?)" + sequenceMatch[currentIndex+1] + puntuations[indexOfPuntuations];
+//	        }
+//	        else{
+//	        	regex = sequenceMatch[currentIndex] + puntuations[indexOfPuntuations] + "(.*?)(。|；|;)";
+//	        }
+//	        
+//	        Pattern mPattern = Pattern.compile(regex);
+//	        Matcher mMatcher = mPattern.matcher(content1);
+//	        while (mMatcher.find()) {
+//	        	result.append(mMatcher.group(1)).append("。");
+//				evContentList.add(mMatcher.group(1));
+//				evContent.append(mMatcher.group(1));
+//				evContent.append(System.lineSeparator());
+//				evContent.append(System.lineSeparator());
+//	        }
+//	        currentIndex++;
+//			
+//		}
+		
 		for (int i = matchIndex; i < stringList.length; i++) {
 			String token = stringList[i];
+			
 			try {
 				if (token.contains(sequenceMatch[currentIndex] + puntuations[indexOfPuntuations])) {
 					result.append(token).append("。");
+					
+					//向evContentList中加入新的内容
+					evContentList.add(token.split(sequenceMatch[currentIndex] + puntuations[indexOfPuntuations])[1]);
+					evContent.append(token.split(sequenceMatch[currentIndex] + puntuations[indexOfPuntuations])[1]);
+					evContent.append(System.lineSeparator());
+					evContent.append(System.lineSeparator());
 					currentIndex++;
 				}
 			} catch (Exception e) {
@@ -93,8 +133,9 @@ public class MatchStrategy2  implements MatchStrategy{
 		}
 
 		para.setKeyContent(result.toString());
+		para.setEvContent(evContent.toString());
+		para.setEvContentList(evContentList);
 		return true;
-		//return result.toString();
 	}
 
 
