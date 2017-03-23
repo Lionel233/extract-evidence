@@ -7,6 +7,7 @@ public class EvPara {
 	private String content;
 	private String keyContent;
 	private String evContent;
+	private String commiter;
 	/**
 	 * 标号类特有属性
 	 */
@@ -82,6 +83,13 @@ public class EvPara {
 
 	public void setEvContentList(ArrayList<String> evContentList) {
 		this.evContentList = evContentList;
+	}
+	public String getCommiter() {
+		return commiter;
+	}
+
+	public void setCommiter(String commiter) {
+		this.commiter = commiter;
 	}
 
 }

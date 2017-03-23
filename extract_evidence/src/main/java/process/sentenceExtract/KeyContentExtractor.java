@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.EvPara;
 import model.PreEv;
+import process.evCommiterExtract.EvCommiterExtractor;
 import process.sentenceExtract.match.MatchStrategy;
 
 /**
@@ -57,8 +58,10 @@ public abstract class KeyContentExtractor implements KeyContentExtract{
 	}
 	
 	public boolean extractSentences(PreEv model){
+		EvCommiterExtractor evCommiterExtractor = new EvCommiterExtractor();
 		boolean flag = false;
 		for(EvPara para:model.getEvParaList()){
+			evCommiterExtractor.getCommiter(para);//读取提交人
 			flag = (flag || this.match(para));
 			if(flag){
 				break;

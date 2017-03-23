@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import model.EvPara;
 import model.EvRecord;
-import model.PreEv;
 
 public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 	
@@ -19,7 +18,7 @@ public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 	}
 	
 	@Override
-	public boolean extractDetails(PreEv preEv,EvPara evpara) {
+	public boolean extractDetails(EvPara evpara) {
 		ArrayList<EvRecord> recordList = new ArrayList<EvRecord>();
 		
 		if(evpara.getResolveType()==null){
@@ -33,6 +32,7 @@ public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 				record.setName(token.split("，|,|。|\\.|；|;|：")[0]);
 				record.setContent(token);
 				record.setType(EvTypeJudge.judge(record.getName()));
+				record.setCommiter(evpara.getCommiter());
 				recordList.add(record);
 			}
 		}
