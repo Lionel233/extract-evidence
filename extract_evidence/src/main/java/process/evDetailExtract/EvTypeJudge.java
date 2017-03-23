@@ -59,6 +59,15 @@ public class EvTypeJudge {
 		return EVTYPE_OTHER;
 	}
 	
+	public static boolean containsKeyword(String ev){
+		for(int i = 0;i < keywords.size() - 1;i ++){
+			if(ev.contains(keywords.get(i).keyword )){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	
 }
