@@ -142,7 +142,7 @@ public class Main {
 			}
 			boolean result = extractor.extractSentences(model);
 			for(EvPara para:model.getEvParaList()){
-				EvidenceDetailExtractor.getInstance().extractDetails(para);
+				EvidenceDetailExtractor.getInstance().extractDetails(model,para);
 			}
 			
 			//System.out.println(result);

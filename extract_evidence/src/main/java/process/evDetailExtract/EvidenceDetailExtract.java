@@ -1,6 +1,7 @@
 package process.evDetailExtract;
 
 import model.EvPara;
+import model.PreEv;
 
 public interface EvidenceDetailExtract {
 	
@@ -9,6 +10,6 @@ public interface EvidenceDetailExtract {
 	 * 
 	 * @return
 	 */
-	public boolean extractDetails(EvPara evpara);
+	public boolean extractDetails(PreEv preEv,EvPara evpara);
 
 }

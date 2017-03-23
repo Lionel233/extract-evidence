@@ -2,8 +2,11 @@ package process.evDetailExtract;
 
 import java.util.ArrayList;
 
+import com.hankcs.hanlp.model.maxent.EvalParameters;
+
 import model.EvPara;
 import model.EvRecord;
+import model.PreEv;
 
 public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 	
@@ -16,7 +19,7 @@ public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 	}
 	
 	@Override
-	public boolean extractDetails(EvPara evpara) {
+	public boolean extractDetails(PreEv preEv,EvPara evpara) {
 		ArrayList<EvRecord> recordList = new ArrayList<EvRecord>();
 		
 		if(evpara.getResolveType()==null){
@@ -30,6 +33,7 @@ public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 				record.setName(token.split("，|,|。|\\.|；|;|：")[0]);
 				record.setContent(token);
 				record.setType(EvTypeJudge.judge(record.getName()));
+				record.setCommiter(EvCommiterJudge.getCommiter(preEv.getLitigantList()));
 				recordList.add(record);
 			}
 		}
@@ -47,6 +51,7 @@ public class EvidenceDetailExtractor implements EvidenceDetailExtract{
 				record.setName(token);
 				record.setContent(token);
 				record.setType(EvTypeJudge.judge(record.getName()));
+				record.setCommiter(EvCommiterJudge.getCommiter(preEv.getLitigantList()));
 				recordList.add(record);
 			}
 		}
