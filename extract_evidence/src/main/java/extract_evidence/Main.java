@@ -29,8 +29,8 @@ public class Main {
 	}
 
 	public void start() {
-		ArrayList<PreEv> list = load("刑事一审");
-		process(list);
+//		ArrayList<PreEv> list = load("刑事一审");
+//		process(list);
 		
 //		ArrayList<PreEv> list = load("行政一审");
 //		process(list);
@@ -38,8 +38,8 @@ public class Main {
 //		ArrayList<PreEv> list = load("行政二审");
 //		process(list);
 		
-//		ArrayList<PreEv> list = load("民事一审");
-//		process(list);
+		ArrayList<PreEv> list = load("民事一审");
+		process(list);
 		
 //		ArrayList<PreEv> list = load("民事二审");
 //		process(list);

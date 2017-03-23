@@ -12,11 +12,14 @@ public class CivilFirstExtractor extends KeyContentExtractor {
 	
 	{
 		this.strategyList.clear();
-		this.strategyList.add(new MatchStrategy1());
+
 		this.strategyList.add(new MatchStrategy2());
 		this.strategyList.add(new MatchStrategy3());
-		this.strategyList.add(new MatchStrategy6());
+		this.strategyList.add(new MatchStrategy1());
+		
 		this.strategyList.add(new MatchStrategy7());
+		this.strategyList.add(new MatchStrategy6());
+		
 	}
 	
 	public static CivilFirstExtractor getInstance(){

@@ -21,6 +21,7 @@ public class MatchStrategy4 implements MatchStrategy{
         while (mMatcher.find()) {
             //System.out.println("match4:\t" + mMatcher.group(0));
             para.setKeyContent(mMatcher.group(0));
+            para.setEvContent(mMatcher.group(3));
             return true;
         }
 		

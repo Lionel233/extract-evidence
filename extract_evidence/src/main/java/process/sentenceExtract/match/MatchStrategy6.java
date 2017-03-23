@@ -13,13 +13,14 @@ public class MatchStrategy6  implements MatchStrategy{
 	 */
 	@Override
 	public boolean match(EvPara para) {
-		String regex = "[^。]*(提供|提交)[^。]*(证明|证实).*(采信|认定)[^。]*。";
+		String regex = "[^。]*(提供|提交)([^。]*)(证明|证实).*(采信|认定)[^。]*。";
         
         Pattern mPattern = Pattern.compile(regex);
         Matcher mMatcher = mPattern.matcher(para.getContent());
         while (mMatcher.find()) {
             //System.out.println("match5:\t" + mMatcher.group(0));
             para.setKeyContent(mMatcher.group(0));
+            para.setEvContent(mMatcher.group(2));
             return true;
         }
 		
