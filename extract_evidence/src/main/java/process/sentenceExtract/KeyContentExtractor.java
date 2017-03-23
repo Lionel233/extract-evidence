@@ -61,7 +61,7 @@ public abstract class KeyContentExtractor implements KeyContentExtract{
 		EvCommiterExtractor evCommiterExtractor = new EvCommiterExtractor();
 		boolean flag = false;
 		for(EvPara para:model.getEvParaList()){
-			evCommiterExtractor.getCommiter(para);//读取提交人
+			evCommiterExtractor.getCommiter(model,para);//读取提交人
 			flag = (flag || this.match(para));
 			if(flag){
 				break;

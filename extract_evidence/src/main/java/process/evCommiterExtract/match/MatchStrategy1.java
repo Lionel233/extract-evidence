@@ -11,7 +11,7 @@ public class MatchStrategy1 implements MatchStrategy{
 	 */
 	@Override
 	public boolean match(EvPara evPara) {
-		String regex = "([^。]*)*(提交|提供)";
+		String regex = "([^。]*)(提交|提供)";
 		
 		Pattern mPattern = Pattern.compile(regex);
 		Matcher mMatcher = mPattern.matcher(evPara.getContent());

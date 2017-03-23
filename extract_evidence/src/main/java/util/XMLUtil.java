@@ -78,7 +78,7 @@ public class XMLUtil {
             
             if(record.getCommiter()!=null){
                 Element e4 = new Element("TJR").setAttribute("nameCN", "提交人");
-                e3.setAttribute("value", record.getCommiter());
+                e4.setAttribute("value", record.getCommiter());
                 e.addContent(e4);
             }
 
